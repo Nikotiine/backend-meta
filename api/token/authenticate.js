@@ -3,9 +3,10 @@ const jwt = require("jsonwebtoken");
 const { generateAccessToken } = require("./generator");
 
 function authenticateToken(req, res, next) {
+  console.log("debut auth");
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  // console.log(token);
+
   if (token === null) return res.status(401).send("pas de token");
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
