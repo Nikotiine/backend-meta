@@ -52,5 +52,31 @@ async function countAllUsers() {
 
   return { count };
 }
+//----------------------------------------------- edit function -----------------------------------
+async function editUser(data, userid) {
+  const pk = userid;
+  //const [userAccount, created] =
+  await bcrypt.hash(data.password, 10).then((hash) => {
+    return user.update(
+      {
+        password: hash,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        adresse: data.adresse,
+        zipCode: data.zipCode,
+        city: data.city,
+        email: data.email,
+      },
+      {
+        where: {
+          id: pk,
+        },
+      }
+    );
+  });
+  // if (created) {
+  //   return userAccount;
+  // } else return false;
+}
 //------------export modules
-module.exports = { newUser, logginUser, accountUser, countAllUsers };
+module.exports = { newUser, logginUser, accountUser, countAllUsers, editUser };

@@ -5,6 +5,7 @@ const {
   logginUser,
   accountUser,
   countAllUsers,
+  editUser,
 } = require("../controllers/userControllers");
 const { verifyToken, authenticateToken } = require("../token/authenticate");
 
@@ -34,6 +35,14 @@ router.get("/user", authenticateToken, (req, res) => {
     .then((accountIsValidate) => {
       console.log(accountIsValidate);
       res.send(accountIsValidate);
+    })
+    .catch((err) => console.log(err));
+});
+// -----------------------------------------------route edit user---------------------------------------------
+router.put("/user/edit", authenticateToken, (req, res) => {
+  editUser(req.body, req.user.account.id)
+    .then((accountIsEdited) => {
+      res.send(accountIsEdited);
     })
     .catch((err) => console.log(err));
 });
