@@ -46,5 +46,11 @@ async function logginUser({ email, password }) {
 async function accountUser(id) {
   return await user.findByPk(id);
 }
+//----------------------------------------------- count function -----------------------------------
+async function countAllUsers() {
+  const { count, raws } = await user.findAndCountAll();
+
+  return { count };
+}
 //------------export modules
-module.exports = { newUser, logginUser, accountUser };
+module.exports = { newUser, logginUser, accountUser, countAllUsers };

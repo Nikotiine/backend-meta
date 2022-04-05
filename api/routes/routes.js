@@ -4,19 +4,22 @@ const {
   newUser,
   logginUser,
   accountUser,
+  countAllUsers,
 } = require("../controllers/userControllers");
 const { verifyToken, authenticateToken } = require("../token/authenticate");
 
-// -----------------------------------------------route new user----------------------------------
-router.post("/user/new", (req, res) => {
-  newUser(req.body)
-    .then((userAccount) => {
-      res.send(userAccount);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send(err);
-    });
+// -----------------------------------------------route new user *****admin***** ----------------------------------
+router.post("/user/new", authenticateToken, (req, res) => {
+  if (req.user.account.admin) {
+    newUser(req.body)
+      .then((userAccount) => {
+        res.send(userAccount);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send(err);
+      });
+  } else res.sendStatus(400);
 });
 // -----------------------------------------------route loggin user----------------------------------
 router.post("/user/loggin", (req, res) => {
@@ -34,7 +37,14 @@ router.get("/user", authenticateToken, (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-
+// -----------------------------------------------route find and count users----------------------------------
+router.get("/user/count", (req, res) => {
+  countAllUsers()
+    .then((count) => {
+      res.send(count);
+    })
+    .catch((err) => console.log(err));
+});
 // -----------------------------------------------route refresh token----------------------------------
 router.post("refreshToken", (req, res) => {
   verifyToken(req)
