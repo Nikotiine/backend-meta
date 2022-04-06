@@ -4,6 +4,7 @@ const {
   generateAccessToken,
   generateRefreshToken,
 } = require("../token/generator");
+//------------------------------------******Only Admin-----------------------------
 //----------------------------------------------- new user function -----------------------------------
 async function newUser(data) {
   const [userAccount, created] = await bcrypt
@@ -28,6 +29,15 @@ async function newUser(data) {
     return userAccount;
   } else return false;
 }
+//-----------------------------------------------find all function -----------------------------------
+async function accessAllAccount() {
+  return await user.findAll();
+}
+async function destroyAccount(userId) {
+  console.log(userId);
+  // return await user.destroy({});
+}
+//------------------------------------******Only Admin-----------------------------
 //----------------------------------------------- loggin function -----------------------------------
 async function logginUser({ email, password }) {
   const account = await user.findOne({
@@ -49,13 +59,12 @@ async function accountUser(id) {
 //----------------------------------------------- count function -----------------------------------
 async function countAllUsers() {
   const { count, raws } = await user.findAndCountAll();
-
+  console.log({ raws });
   return { count };
 }
+
 //----------------------------------------------- edit function -----------------------------------
 async function editUser(data, userid) {
-  const pk = userid;
-  //const [userAccount, created] =
   await bcrypt.hash(data.password, 10).then((hash) => {
     return user.update(
       {
@@ -69,14 +78,19 @@ async function editUser(data, userid) {
       },
       {
         where: {
-          id: pk,
+          id: userid,
         },
       }
     );
   });
-  // if (created) {
-  //   return userAccount;
-  // } else return false;
 }
 //------------export modules
-module.exports = { newUser, logginUser, accountUser, countAllUsers, editUser };
+module.exports = {
+  newUser,
+  logginUser,
+  accountUser,
+  countAllUsers,
+  editUser,
+  accessAllAccount,
+  destroyAccount,
+};

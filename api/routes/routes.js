@@ -6,10 +6,12 @@ const {
   accountUser,
   countAllUsers,
   editUser,
+  accessAllAccount,
+  destroyAccount,
 } = require("../controllers/userControllers");
 const { verifyToken, authenticateToken } = require("../token/authenticate");
 
-// -----------------------------------------------route new user *****admin***** ----------------------------------
+// -----------------------------------------------route for *****admin***** ----------------------------------
 router.post("/user/new", authenticateToken, (req, res) => {
   if (req.user.account.admin) {
     newUser(req.body)
@@ -20,7 +22,26 @@ router.post("/user/new", authenticateToken, (req, res) => {
         console.log(err);
         res.send(err);
       });
-  } else res.sendStatus(400);
+  } else res.sendStatus(403);
+});
+router.get("/user/all", authenticateToken, (req, res) => {
+  if (req.user.account.admin) {
+    accessAllAccount()
+      .then((allAccount) => {
+        res.send(allAccount);
+      })
+      .catch((err) => console.log(err));
+  } else res.sendStatus(403);
+});
+router.delete("/user/delete", authenticateToken, (req, res) => {
+  if (req.user.account.admin) {
+    console.log(req.body);
+    destroyAccount(req.body)
+      .then((isDestroy) => {
+        res.send({ isDestroy });
+      })
+      .catch((err) => console.log(err));
+  } else res.sendStatus(403);
 });
 // -----------------------------------------------route loggin user----------------------------------
 router.post("/user/loggin", (req, res) => {
