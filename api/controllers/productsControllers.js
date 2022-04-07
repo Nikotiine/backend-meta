@@ -5,7 +5,7 @@ async function newProduct(data) {
     where: {
       name: data.name,
     },
-    default: {
+    defaults: {
       categorie: data.categorie,
     },
   });
@@ -13,4 +13,20 @@ async function newProduct(data) {
     return item;
   } else return false;
 }
-module.exports = { newProduct };
+async function allProducts() {
+  return await products.findAll();
+}
+async function editProduct(product) {
+  return await products.update(
+    {
+      name: product.name,
+      categorie: product.categorie,
+    },
+    {
+      where: {
+        id: product.id,
+      },
+    }
+  );
+}
+module.exports = { newProduct, allProducts, editProduct };

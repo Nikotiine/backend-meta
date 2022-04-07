@@ -1,5 +1,9 @@
 const express = require("express");
-const { newProduct } = require("../controllers/productsControllers");
+const {
+  newProduct,
+  allProducts,
+  editProduct,
+} = require("../controllers/productsControllers");
 const router = express.Router();
 const {
   newUser,
@@ -81,10 +85,25 @@ router.get("/user/count", (req, res) => {
     .catch((err) => console.log(err));
 });
 // -----------------------------------------------route Products----------------------------------
+router.get("/product/all", authenticateToken, (req, res) => {
+  allProducts()
+    .then((all) => res.send(all))
+    .catch((err) => console.log(err));
+});
+
 // -----------------------------------------------route Products******ADMIN--------------------------
-router.post("/product/new", verifyToken, (req, res) => {
+router.post("/product/new", authenticateToken, (req, res) => {
   if (req.user.account.admin) {
     newProduct(req.body).then((product) => res.send(product));
+  } else res.sendStatus(403);
+});
+router.put("/product/edit", authenticateToken, (req, res) => {
+  if (req.user.account.admin) {
+    editProduct(req.body)
+      .then((update) => {
+        res.send(update);
+      })
+      .catch((err) => console.log(err));
   } else res.sendStatus(403);
 });
 // -----------------------------------------------route refresh token----------------------------------
