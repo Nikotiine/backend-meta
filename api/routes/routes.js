@@ -1,4 +1,5 @@
 const express = require("express");
+const { newProduct } = require("../controllers/productsControllers");
 const router = express.Router();
 const {
   newUser,
@@ -9,9 +10,10 @@ const {
   accessAllAccount,
   destroyAccount,
 } = require("../controllers/userControllers");
+
 const { verifyToken, authenticateToken } = require("../token/authenticate");
 
-// -----------------------------------------------route for *****admin***** ----------------------------------
+// -----------------------------------------------route for *****admin***** USER----------------------------------
 router.post("/user/new", authenticateToken, (req, res) => {
   if (req.user.account.admin) {
     newUser(req.body)
@@ -38,7 +40,7 @@ router.delete("/user/delete", authenticateToken, (req, res) => {
     console.log(req.body);
     destroyAccount(req.body)
       .then((isDestroy) => {
-        res.send({ isDestroy });
+        res.send({ data: isDestroy });
       })
       .catch((err) => console.log(err));
   } else res.sendStatus(403);
@@ -54,7 +56,6 @@ router.post("/user/loggin", (req, res) => {
 router.get("/user", authenticateToken, (req, res) => {
   accountUser(req.user.account.id)
     .then((accountIsValidate) => {
-      console.log(accountIsValidate);
       res.send(accountIsValidate);
     })
     .catch((err) => console.log(err));
@@ -62,8 +63,12 @@ router.get("/user", authenticateToken, (req, res) => {
 // -----------------------------------------------route edit user---------------------------------------------
 router.put("/user/edit", authenticateToken, (req, res) => {
   editUser(req.body, req.user.account.id)
-    .then((accountIsEdited) => {
-      res.send(accountIsEdited);
+    .then((update) => {
+      if (update) {
+        accountUser(req.user.account.id).then((account) => {
+          res.send(account);
+        });
+      } else res.sendStatus(400);
     })
     .catch((err) => console.log(err));
 });
@@ -74,6 +79,13 @@ router.get("/user/count", (req, res) => {
       res.send(count);
     })
     .catch((err) => console.log(err));
+});
+// -----------------------------------------------route Products----------------------------------
+// -----------------------------------------------route Products******ADMIN--------------------------
+router.post("/product/new", verifyToken, (req, res) => {
+  if (req.user.account.admin) {
+    newProduct(req.body).then((product) => res.send(product));
+  } else res.sendStatus(403);
 });
 // -----------------------------------------------route refresh token----------------------------------
 router.post("refreshToken", (req, res) => {

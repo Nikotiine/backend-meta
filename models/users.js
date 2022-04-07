@@ -10,6 +10,7 @@ const user = database.define("users", {
   zipCode: { type: DataTypes.INTEGER },
   city: { type: DataTypes.STRING },
   admin: { type: DataTypes.BOOLEAN },
+  newletter: { type: DataTypes.BOOLEAN },
   avatar: { type: DataTypes.BLOB("long") },
 });
 module.exports = { user };

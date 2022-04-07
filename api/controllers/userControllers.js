@@ -34,8 +34,9 @@ async function accessAllAccount() {
   return await user.findAll();
 }
 async function destroyAccount(userId) {
-  console.log(userId);
-  // return await user.destroy({});
+  return await user.destroy({
+    where: { id: userId.id },
+  });
 }
 //------------------------------------******Only Admin-----------------------------
 //----------------------------------------------- loggin function -----------------------------------
@@ -59,16 +60,15 @@ async function accountUser(id) {
 //----------------------------------------------- count function -----------------------------------
 async function countAllUsers() {
   const { count, raws } = await user.findAndCountAll();
-  console.log({ raws });
+
   return { count };
 }
 
 //----------------------------------------------- edit function -----------------------------------
 async function editUser(data, userid) {
-  await bcrypt.hash(data.password, 10).then((hash) => {
+  if (!data.password) {
     return user.update(
       {
-        password: hash,
         firstName: data.firstName,
         lastName: data.lastName,
         adresse: data.adresse,
@@ -82,7 +82,26 @@ async function editUser(data, userid) {
         },
       }
     );
-  });
+  } else {
+    await bcrypt.hash(data.password, 10).then((hash) => {
+      return user.update(
+        {
+          password: hash,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          adresse: data.adresse,
+          zipCode: data.zipCode,
+          city: data.city,
+          email: data.email,
+        },
+        {
+          where: {
+            id: userid,
+          },
+        }
+      );
+    });
+  }
 }
 //------------export modules
 module.exports = {
