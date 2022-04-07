@@ -1,4 +1,5 @@
 require("dotenv").config();
+const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const { generateAccessToken } = require("./generator");
 
@@ -12,7 +13,8 @@ function authenticateToken(req, res, next) {
     if (err) {
       console.log(token);
       console.log("err de token");
-      return res.status(401);
+      next(createError(401, "err de token"));
+      return;
     }
     console.log("ok valide");
     req.user = user;
