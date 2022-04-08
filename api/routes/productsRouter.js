@@ -6,13 +6,17 @@ const {
   newProduct,
   editProduct,
 } = require("../controllers/productsControllers");
-
+const { allCatergory } = require("../controllers/categoriesContollers");
 router.get("/all", (req, res) => {
   allProducts()
     .then((all) => res.send(all))
     .catch((err) => console.log(err));
 });
-
+router.get("/category", (req, res) => {
+  allCatergory()
+    .then((all) => res.send(all))
+    .catch((err) => console.log(err));
+});
 // -----------------------------------------------route Products******ADMIN--------------------------
 router.post("/new", isAdmin, (req, res) => {
   newProduct(req.body).then((product) => res.send(product));

@@ -36,13 +36,13 @@ router.delete("/delete", isAdmin, (req, res) => {
 });
 // -----------------------------------------------route loggin user----------------------------------
 
-// router.get("/me", (req, res) => {
-//   accountUser(req.user.account.id)
-//     .then((accountIsValidate) => {
-//       res.send(accountIsValidate);
-//     })
-//     .catch((err) => console.log(err));
-// });
+router.get("/me", (req, res) => {
+  accountUser(req.user.account.id)
+    .then((accountIsValidate) => {
+      res.send(accountIsValidate);
+    })
+    .catch((err) => console.log(err));
+});
 // -----------------------------------------------route edit user---------------------------------------------
 router.put("/edit", (req, res) => {
   editUser(req.body, req.user.account.id)

@@ -6,7 +6,7 @@ async function newProduct(data) {
       name: data.name,
     },
     defaults: {
-      categorie: data.categorie,
+      categoryCode: data.code,
     },
   });
   if (created) {
