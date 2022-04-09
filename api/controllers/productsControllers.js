@@ -16,6 +16,11 @@ async function newProduct(data) {
 async function allProducts() {
   return await products.findAll();
 }
+async function countProducts() {
+  const { count, raws } = await products.findAndCountAll();
+
+  return { count };
+}
 async function editProduct(product) {
   return await products.update(
     {
@@ -29,4 +34,4 @@ async function editProduct(product) {
     }
   );
 }
-module.exports = { newProduct, allProducts, editProduct };
+module.exports = { newProduct, allProducts, editProduct, countProducts };

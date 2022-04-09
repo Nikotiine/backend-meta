@@ -5,6 +5,7 @@ const {
   allProducts,
   newProduct,
   editProduct,
+  countProducts,
 } = require("../controllers/productsControllers");
 const { allCatergory } = require("../controllers/categoriesContollers");
 router.get("/all", (req, res) => {
@@ -15,6 +16,13 @@ router.get("/all", (req, res) => {
 router.get("/category", (req, res) => {
   allCatergory()
     .then((all) => res.send(all))
+    .catch((err) => console.log(err));
+});
+router.get("/count", (req, res) => {
+  countProducts()
+    .then((count) => {
+      res.send(count);
+    })
     .catch((err) => console.log(err));
 });
 // -----------------------------------------------route Products******ADMIN--------------------------
