@@ -1,4 +1,6 @@
 const { user } = require("../../models/users");
+const { newsletter } = require("../../models/newsletter");
+const { usersAdresse } = require("../../models/usersAdresse ");
 const bcrypt = require("bcryptjs");
 const {
   generateAccessToken,
@@ -18,20 +20,32 @@ async function newUser(data) {
           password: hash,
           firstName: data.firstName,
           lastName: data.lastName,
-          adresse: data.adresse,
-          zipCode: data.zipCode,
-          city: data.city,
+          avatar: data.avatar,
           admin: data.admin,
         },
       });
     });
   if (created) {
+    newsletter.create({
+      email: data.email,
+      registered: data.newsletter,
+      userId: userAccount.id,
+    });
+    usersAdresse.create({
+      adressePerso: data.adressePerso,
+      geoLocPerso: data.geoLocPerso,
+      adressePro: data.adressePro,
+      geoLocPro: data.geoLocPro,
+      userId: userAccount.id,
+    });
     return userAccount;
   } else return false;
 }
 //-----------------------------------------------find all function -----------------------------------
 async function accessAllAccount() {
-  return await user.findAll();
+  return await user.findAll({
+    include: newsletter,
+  });
 }
 async function destroyAccount(userId) {
   return await user.destroy({
