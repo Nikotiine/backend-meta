@@ -8,7 +8,7 @@ async function getInfoUsers() {
     include: [
       {
         model: usersAdresse,
-        attributes: ["adressePro", "geoLocPro"],
+        attributes: ["adressePro", "geoLocPro", "userId"],
       },
     ],
   });
