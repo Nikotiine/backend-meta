@@ -1,6 +1,6 @@
 const { user } = require("../../models/users");
 const { newsletter } = require("../../models/newsletter");
-const { usersAdresse } = require("../../models/usersAdresse ");
+const { usersAdresse } = require("../../models/userAdresse");
 const bcrypt = require("bcryptjs");
 const {
   generateAccessToken,
@@ -22,6 +22,7 @@ async function newUser(data) {
           lastName: data.lastName,
           avatar: data.avatar,
           admin: data.admin,
+          publicAuthorisation: data.publicAuthorisation,
         },
       });
     });
@@ -44,7 +45,12 @@ async function newUser(data) {
 //-----------------------------------------------find all function -----------------------------------
 async function accessAllAccount() {
   return await user.findAll({
-    include: newsletter,
+    include: [
+      {
+        model: newsletter,
+      },
+      { model: usersAdresse },
+    ],
   });
 }
 async function destroyAccount(userId) {

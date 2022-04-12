@@ -3,7 +3,7 @@ var express = require("express");
 const router = express.Router();
 const usersRouter = require("./usersRouter");
 const productsRouter = require("./productsRouter");
-
+const publicRouter = require("./publicRouter");
 const { authenticateToken, verifyToken } = require("../token/authenticate");
 const { sendError } = require("./utils");
 
@@ -18,7 +18,7 @@ router.post("/user/loggin", (req, res) => {
       sendError(err, res);
     });
 });
-
+router.use("/public", publicRouter);
 router.use("/user", authenticateToken, usersRouter);
 router.use("/products", authenticateToken, productsRouter);
 

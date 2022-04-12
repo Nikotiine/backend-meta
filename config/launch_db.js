@@ -2,7 +2,7 @@ const { database } = require("./config_db");
 const { user } = require("../models/users");
 const { newsletter } = require("../models/newsletter");
 const { products } = require("../models/products");
-const { usersAdresse } = require("../models/usersAdresse ");
+const { usersAdresse } = require("../models/userAdresse");
 //const { productsCategories } = require("../models/productsCategories");
 (async () => {
   try {
