@@ -22,10 +22,11 @@ async function countProducts() {
   return { count };
 }
 async function editProduct(product) {
+  console.log(product);
   return await products.update(
     {
       name: product.name,
-      categorie: product.categorie,
+      categoryCode: product.code,
     },
     {
       where: {

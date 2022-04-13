@@ -12,7 +12,7 @@ function authenticateToken(req, res, next) {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
       console.log(token);
-      console.log("err de token");
+      console.log(" ici l'err de token");
       next(createError(401, "err de token"));
       return;
     }
