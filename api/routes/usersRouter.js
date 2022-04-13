@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { sendError } = require("./utils");
 const {
   newUser,
   accessAllAccount,
@@ -17,7 +18,7 @@ router.post("/new", isAdmin, (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.send(err);
+      sendError(err, res);
     });
 });
 router.get("/all", isAdmin, (req, res) => {

@@ -1,5 +1,6 @@
 const { user } = require("../../models/users");
 const { newsletter } = require("../../models/newsletter");
+const createError = require("http-errors");
 const { usersAdresse } = require("../../models/userAdresse");
 const bcrypt = require("bcryptjs");
 const {
@@ -40,7 +41,9 @@ async function newUser(data) {
       userId: userAccount.id,
     });
     return userAccount;
-  } else return false;
+  } else {
+    return createError(400, "Email déja utilisé");
+  }
 }
 //-----------------------------------------------find all function -----------------------------------
 async function accessAllAccount() {
