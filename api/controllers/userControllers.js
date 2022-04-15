@@ -78,7 +78,13 @@ async function logginUser({ email, password }) {
   }
 }
 async function accountUser(id) {
-  return await user.findByPk(id);
+  return await user.findByPk(id, {
+    include: [
+      {
+        model: usersAdresse,
+      },
+    ],
+  });
 }
 //----------------------------------------------- count function -----------------------------------
 async function countAllUsers() {

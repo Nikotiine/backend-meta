@@ -11,8 +11,8 @@ function authenticateToken(req, res, next) {
   if (token === null) return res.status(401).send("pas de token");
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-      console.log(token);
-      console.log(" ici l'err de token");
+      //console.log(token);
+      console.log(" ici l'err de token" + err);
       next(createError(401, "err de token"));
       return;
     }
