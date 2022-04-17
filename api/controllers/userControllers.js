@@ -7,6 +7,7 @@ const {
   generateAccessToken,
   generateRefreshToken,
 } = require("../token/generator");
+
 //------------------------------------******Only Admin-----------------------------
 //----------------------------------------------- new user function -----------------------------------
 async function newUser(data) {
@@ -83,6 +84,9 @@ async function accountUser(id) {
       {
         model: usersAdresse,
       },
+      {
+        model: newsletter,
+      },
     ],
   });
 }
@@ -95,15 +99,15 @@ async function countAllUsers() {
 
 //----------------------------------------------- edit function -----------------------------------
 async function editUser(data, userid) {
+  console.log(data);
   if (!data.password) {
-    return user.update(
+    console.log("pas de newpassword");
+    await user.update(
       {
+        email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
-        adresse: data.adresse,
-        zipCode: data.zipCode,
-        city: data.city,
-        email: data.email,
+        publicAuthorisation: data.publicAuthorisation,
       },
       {
         where: {
@@ -111,17 +115,42 @@ async function editUser(data, userid) {
         },
       }
     );
+
+    await usersAdresse.update(
+      {
+        adressePerso: data.adressePerso,
+        geoLocPro: data.geoLocPro,
+        adressePro: data.adressePro,
+        geoLocPerso: data.geoLocPerso,
+      },
+      {
+        where: {
+          userId: userid,
+        },
+      }
+    );
+    await newsletter.update(
+      {
+        email: data.email,
+        registered: data.newsletter,
+      },
+      {
+        where: {
+          userId: userid,
+        },
+      }
+    );
+    return true;
   } else {
     await bcrypt.hash(data.password, 10).then((hash) => {
-      return user.update(
+      console.log("newpassword");
+      user.update(
         {
           password: hash,
+          email: data.email,
           firstName: data.firstName,
           lastName: data.lastName,
-          adresse: data.adresse,
-          zipCode: data.zipCode,
-          city: data.city,
-          email: data.email,
+          publicAuthorisation: data.publicAuthorisation,
         },
         {
           where: {
@@ -129,8 +158,33 @@ async function editUser(data, userid) {
           },
         }
       );
+      newsletter.update(
+        {
+          email: data.email,
+          registered: data.newsletter,
+        },
+        {
+          where: {
+            userId: userid,
+          },
+        }
+      );
+      usersAdresse.update(
+        {
+          adressePerso: data.adressePerso,
+          geoLocPro: data.geoLocPro,
+          adressePro: data.adressePro,
+          geoLocPerso: data.geoLocPerso,
+        },
+        {
+          where: {
+            userId: userid,
+          },
+        }
+      );
     });
   }
+  return true;
 }
 //------------export modules
 module.exports = {
