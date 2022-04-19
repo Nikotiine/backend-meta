@@ -40,7 +40,7 @@ router.delete("/delete", isAdmin, (req, res) => {
 router.get("/me", (req, res) => {
   accountUser(req.user.account.id)
     .then((accountIsValidate) => {
-      res.send(accountIsValidate);
+      res.send(accountIsValidate.accountUser);
     })
     .catch((err) => console.log(err));
 });
