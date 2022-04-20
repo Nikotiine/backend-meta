@@ -14,7 +14,11 @@ async function newProduct(data) {
   } else return false;
 }
 async function allProducts() {
-  return await products.findAll();
+  return await products.findAll({
+    attributes: {
+      exclude: ["createdAt", "updatedAt"],
+    },
+  });
 }
 async function countProducts() {
   const { count, raws } = await products.findAndCountAll();

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { sendError } = require("./utils");
+const { newOrder } = require("../controllers/ordersControllers");
 const {
   newUser,
   accessAllAccount,
@@ -40,7 +41,7 @@ router.delete("/delete", isAdmin, (req, res) => {
 router.get("/me", (req, res) => {
   accountUser(req.user.account.id)
     .then((accountIsValidate) => {
-      res.send(accountIsValidate.accountUser);
+      res.send(accountIsValidate);
     })
     .catch((err) => console.log(err));
 });
@@ -50,7 +51,8 @@ router.put("/edit", (req, res) => {
     .then((update) => {
       if (update) {
         accountUser(req.user.account.id).then((account) => {
-          res.send(account);
+          console.log("envoie acc");
+          res.send({ data: "update sucess" });
         });
       } else res.sendStatus(400);
     })
@@ -64,5 +66,7 @@ router.get("/count", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-
+router.post("/commande", (req, res) => {
+  newOrder(req.body).then((toto) => console.log(toto));
+});
 module.exports = router;

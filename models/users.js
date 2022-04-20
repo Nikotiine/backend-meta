@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const { database } = require("../config/config_db");
 const { usersAdresse } = require("./userAdresse");
 const { newsletter } = require("./newsletter");
+const { orders } = require("./orders");
 
 const user = database.define("users", {
   firstName: { type: DataTypes.STRING },
@@ -22,4 +23,6 @@ user.hasOne(usersAdresse, {
   onDelete: "CASCADE",
 });
 usersAdresse.belongsTo(user);
+user.hasMany(orders);
+orders.belongsTo(user);
 module.exports = { user };

@@ -89,7 +89,7 @@ async function accountUser(id) {
       },
     ],
   });
-  return { accountUser };
+  return accountUser;
 }
 //----------------------------------------------- count function -----------------------------------
 async function countAllUsers() {
@@ -100,7 +100,7 @@ async function countAllUsers() {
 
 //----------------------------------------------- edit function -----------------------------------
 async function editUser(data, userid) {
-  console.log(data);
+  console.log(data.password);
   if (!data.password) {
     console.log("pas de newpassword");
     await user.update(
