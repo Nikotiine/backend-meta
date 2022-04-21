@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   newOrder,
   findUserOrders,
+  findUserOrder,
 } = require("../controllers/ordersControllers");
 
 router.post("/newOrder", (req, res) => {
@@ -20,5 +21,10 @@ router.get("/myOrders", (req, res) => {
     res.send(userOrders);
   });
 });
-
+router.get("/one/:id", (req, res) => {
+  console.log("one");
+  findUserOrder(req.params.id).then((order) => {
+    res.send(order);
+  });
+});
 module.exports = router;

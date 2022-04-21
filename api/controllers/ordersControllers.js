@@ -36,4 +36,14 @@ async function findUserOrders(id) {
     where: { userId: id },
   });
 }
-module.exports = { newOrder, findUserOrders };
+async function findUserOrder(id) {
+  console.log(id);
+  return await orders.findByPk(id, {
+    include: [
+      {
+        model: productInOrder,
+      },
+    ],
+  });
+}
+module.exports = { newOrder, findUserOrders, findUserOrder };
