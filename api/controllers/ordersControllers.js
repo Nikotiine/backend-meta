@@ -3,13 +3,15 @@ const { products } = require("../../models/products");
 const { productInOrder } = require("../../models/productsInOrder");
 const { sendOrder } = require("./nodemailerControllers");
 async function newOrder(data, user) {
-  //console.log(data);
+  console.log(data);
   const order = await orders
     .create({
       userId: data.userId,
       payment: data.payment,
       shipTo: data.shipTo,
       total: data.total,
+      inProgress: data.inProgress,
+      shipped: false,
     })
     .then((create) => {
       const listOfProducts = data.products.map((prod) => {
@@ -20,10 +22,10 @@ async function newOrder(data, user) {
           categoryCode: prod.categoryCode,
           productId: prod.id,
           commandeId: create.dataValues.id,
+          totalS: prod.totalS,
+          totalB: prod.totalB,
         };
       });
-      // console.log(create);
-      // console.log("list" + listOfProducts);
 
       productInOrder.bulkCreate(listOfProducts);
       const orderIsMailled = sendOrder(create, listOfProducts, user);
@@ -46,4 +48,26 @@ async function findUserOrder(id) {
     ],
   });
 }
-module.exports = { newOrder, findUserOrders, findUserOrder };
+async function findAllOrders() {
+  return await orders.findAll();
+}
+async function orderIsShipped(id, status) {
+  return await orders.update(
+    {
+      inProgress: status.inProgress,
+      shipped: status.shipped,
+    },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
+}
+module.exports = {
+  newOrder,
+  findUserOrders,
+  findUserOrder,
+  findAllOrders,
+  orderIsShipped,
+};

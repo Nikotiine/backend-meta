@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { sendError } = require("./utils");
-const { newOrder } = require("../controllers/ordersControllers");
+
 const {
   newUser,
   accessAllAccount,
@@ -66,11 +66,5 @@ router.get("/count", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-router.post("/commande", (req, res) => {
-  newOrder(req.body, req.user.account).then((order) => {
-    if (order.response) {
-      res.send({ data: "commande validé" });
-    } else res.send({ data: "une erreur est arrivé" });
-  });
-});
+
 module.exports = router;

@@ -13,7 +13,7 @@ async function sendContactForm(formulaire) {
     from: formulaire.email,
     to: process.env.GMAIL_TEST_ADRESS,
     subject: `Demande de contact pour ${formulaire.sujet} de ${formulaire.lastName} ${formulaire.firstName}`,
-    text: `Email de réponse : ${formulaire.email} </br> Contenu du message : ${formulaire.message}`,
+    html: `Email de réponse : ${formulaire.email} </br> Contenu du message : ${formulaire.message}`,
   };
 
   return await transporter.sendMail(mailOptions);
@@ -26,6 +26,7 @@ async function sendOrder(order, products, user) {
     html: `<p><strong>Commande a expedié a :</strong> ${user.firstName} ${
       user.lastName
     } <br/>
+    <strong>adresse email:</strong>${user.email} <br/>
     <strong>adresse d'expediton:</strong> ${order.dataValues.shipTo} <br/>
     <strong>Listes des produits commandés:</strong> <br/>
      ${products
