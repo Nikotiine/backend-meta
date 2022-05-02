@@ -10,6 +10,7 @@ const {
   countAllUsers,
   accountUser,
 } = require("../controllers/userControllers");
+const { sendNewsletter } = require("../controllers/nodemailerControllers");
 const { isAdmin } = require("./middlewares");
 // -----------------------------------------------route for *****admin***** USER----------------------------------
 router.post("/new", isAdmin, (req, res) => {
@@ -33,6 +34,13 @@ router.delete("/delete", isAdmin, (req, res) => {
   destroyAccount(req.body)
     .then((isDestroy) => {
       res.send({ data: isDestroy });
+    })
+    .catch((err) => console.log(err));
+});
+router.post("/newsletter", isAdmin, (req, res) => {
+  sendNewsletter(req.body)
+    .then((newsletter) => {
+      res.send(newsletter);
     })
     .catch((err) => console.log(err));
 });

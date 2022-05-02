@@ -1,5 +1,6 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+const { newsletter } = require("../../models/newsletter");
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -49,4 +50,24 @@ async function sendOrder(order, products, user) {
   };
   return await transporter.sendMail(mailOptions);
 }
-module.exports = { sendContactForm, sendOrder };
+async function sendNewsletter(news) {
+  await newsletter
+    .findAll({
+      where: {
+        registered: true,
+      },
+    })
+    .then((registered) => {
+      registered.forEach((user) => {
+        const mailOptions = {
+          from: process.env.GMAIL_TEST_ADRESS,
+          to: user.email,
+          subject: news.sujet,
+          text: news.message,
+        };
+        transporter.sendMail(mailOptions);
+      });
+    });
+  return true;
+}
+module.exports = { sendContactForm, sendOrder, sendNewsletter };
