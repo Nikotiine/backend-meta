@@ -10,13 +10,12 @@ const {
   countAllUsers,
   accountUser,
   saveAvatar,
+  getUserAvatar,
 } = require("../controllers/userControllers");
 const { sendNewsletter } = require("../controllers/nodemailerControllers");
 const { isAdmin } = require("./middlewares");
 // -----------------------------------------------route for *****admin***** USER----------------------------------
 router.post("/new", isAdmin, (req, res) => {
-  //console.log(req.body);
-  // console.log(req);
   newUser(req.body)
     .then((userAccount) => {
       res.send(userAccount);
@@ -37,6 +36,11 @@ router.get("/all", isAdmin, (req, res) => {
       res.send(allAccount);
     })
     .catch((err) => console.log(err));
+});
+router.get("/avatar/:id", isAdmin, (req, res) => {
+  getUserAvatar(req.params.id).then((avatar) => {
+    res.send(avatar);
+  });
 });
 router.delete("/delete", isAdmin, (req, res) => {
   destroyAccount(req.body)

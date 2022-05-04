@@ -69,6 +69,11 @@ async function accessAllAccount() {
     ],
   });
 }
+async function getUserAvatar(id) {
+  return await avatar.findOne({
+    where: { userId: id },
+  });
+}
 async function destroyAccount(userId) {
   return await user.destroy({
     where: { id: userId.id },
@@ -212,4 +217,5 @@ module.exports = {
   accessAllAccount,
   destroyAccount,
   saveAvatar,
+  getUserAvatar,
 };
