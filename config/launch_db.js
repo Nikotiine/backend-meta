@@ -6,6 +6,8 @@ const { usersAdresse } = require("../models/userAdresse");
 const { productsPrices } = require("../models/productsPrices");
 const { orders } = require("../models/orders");
 const { productInOrder } = require("../models/productsInOrder");
+
+const { avatar } = require("../models/usersAvatars");
 (async () => {
   try {
     await database.authenticate();
@@ -15,6 +17,7 @@ const { productInOrder } = require("../models/productsInOrder");
     await products.sync({ alter: true });
     await productsPrices.sync({ alter: true });
     await orders.sync({ alter: true });
+    await avatar.sync({ alter: true });
     await productInOrder.sync({ alter: true });
     console.log("Connection mariadb ok.");
   } catch (error) {

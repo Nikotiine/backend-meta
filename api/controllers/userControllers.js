@@ -1,6 +1,8 @@
 const { user } = require("../../models/users");
 const { newsletter } = require("../../models/newsletter");
+const { avatar } = require("../../models/usersAvatars");
 const createError = require("http-errors");
+const fs = require("fs");
 const { usersAdresse } = require("../../models/userAdresse");
 const bcrypt = require("bcryptjs");
 const {
@@ -11,6 +13,7 @@ const {
 //------------------------------------******Only Admin-----------------------------
 //----------------------------------------------- new user function -----------------------------------
 async function newUser(data) {
+  console.log(data.avatar);
   const [userAccount, created] = await bcrypt
     .hash(data.password, 10)
     .then((hash) => {
@@ -22,7 +25,7 @@ async function newUser(data) {
           password: hash,
           firstName: data.firstName,
           lastName: data.lastName,
-          avatar: data.avatar,
+
           admin: data.admin,
           publicAuthorisation: data.publicAuthorisation,
         },
@@ -45,6 +48,15 @@ async function newUser(data) {
   } else {
     return createError(400, "Email déja utilisé");
   }
+}
+async function saveAvatar(blob, id) {
+  //const userAvatar = fs.readFileSync(blob);
+  //console.log(userAvatar);
+  console.log(id);
+  avatar.create({
+    avatar: blob.data,
+    userId: id,
+  });
 }
 //-----------------------------------------------find all function -----------------------------------
 async function accessAllAccount() {
@@ -86,6 +98,9 @@ async function accountUser(id) {
       },
       {
         model: newsletter,
+      },
+      {
+        model: avatar,
       },
     ],
   });
@@ -196,4 +211,5 @@ module.exports = {
   editUser,
   accessAllAccount,
   destroyAccount,
+  saveAvatar,
 };

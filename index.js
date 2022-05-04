@@ -4,7 +4,8 @@ const app = express();
 const cors = require("cors");
 const createError = require("http-errors");
 const routes = require("./api/routes/");
-
+const fileupload = require("express-fileupload");
+app.use(fileupload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());

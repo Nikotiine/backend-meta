@@ -9,11 +9,14 @@ const {
   editUser,
   countAllUsers,
   accountUser,
+  saveAvatar,
 } = require("../controllers/userControllers");
 const { sendNewsletter } = require("../controllers/nodemailerControllers");
 const { isAdmin } = require("./middlewares");
 // -----------------------------------------------route for *****admin***** USER----------------------------------
 router.post("/new", isAdmin, (req, res) => {
+  //console.log(req.body);
+  // console.log(req);
   newUser(req.body)
     .then((userAccount) => {
       res.send(userAccount);
@@ -22,6 +25,11 @@ router.post("/new", isAdmin, (req, res) => {
       console.log(err);
       sendError(err, res);
     });
+});
+router.post("/new/avatar", isAdmin, (req, res) => {
+  saveAvatar(req.files.avatar, req.body.userId).then((toto) => {
+    console.log(toto);
+  });
 });
 router.get("/all", isAdmin, (req, res) => {
   accessAllAccount()
