@@ -18,8 +18,8 @@ router.post("/newOrder", (req, res) => {
   });
 });
 
-router.get("/myOrders", (req, res) => {
-  findUserOrders(req.user.account.id).then((userOrders) => {
+router.get("/myOrders/:id", (req, res) => {
+  findUserOrders(req.params.id).then((userOrders) => {
     res.send(userOrders);
   });
 });

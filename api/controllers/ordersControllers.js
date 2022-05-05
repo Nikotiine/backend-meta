@@ -1,6 +1,7 @@
 const { orders } = require("../../models/orders");
 const { products } = require("../../models/products");
 const { productInOrder } = require("../../models/productsInOrder");
+const { user } = require("../../models/users");
 const { sendOrder } = require("./nodemailerControllers");
 async function newOrder(data, user) {
   console.log(data);
@@ -36,6 +37,7 @@ async function newOrder(data, user) {
 async function findUserOrders(id) {
   return await orders.findAll({
     where: { userId: id },
+    include: [{ model: user }],
   });
 }
 async function findUserOrder(id) {
@@ -49,7 +51,9 @@ async function findUserOrder(id) {
   });
 }
 async function findAllOrders() {
-  return await orders.findAll();
+  return await orders.findAll({
+    include: [{ model: user }],
+  });
 }
 async function orderIsShipped(id, status) {
   return await orders.update(
