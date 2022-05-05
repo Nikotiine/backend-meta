@@ -11,6 +11,7 @@ const {
   accountUser,
   saveAvatar,
   getUserAvatar,
+  editAvatar,
 } = require("../controllers/userControllers");
 const { sendNewsletter } = require("../controllers/nodemailerControllers");
 const { isAdmin } = require("./middlewares");
@@ -77,6 +78,11 @@ router.put("/edit", (req, res) => {
       } else res.sendStatus(400);
     })
     .catch((err) => console.log(err));
+});
+router.put("/edit/avatar/:id", (req, res) => {
+  editAvatar(req.params.id, req.files.avatar).then((update) => {
+    console.log(update);
+  });
 });
 // -----------------------------------------------route find and count users----------------------------------
 router.get("/count", (req, res) => {

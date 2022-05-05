@@ -9,6 +9,9 @@ const orders = database.define("commande", {
   shipped: { type: DataTypes.BOOLEAN },
 });
 
-orders.hasMany(productInOrder);
+orders.hasMany(productInOrder, {
+  onUpdate: "CASCADE",
+  onDelete: "CASCADE",
+});
 productInOrder.belongsTo(orders, {});
 module.exports = { orders };

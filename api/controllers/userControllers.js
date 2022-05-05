@@ -2,7 +2,7 @@ const { user } = require("../../models/users");
 const { newsletter } = require("../../models/newsletter");
 const { avatar } = require("../../models/usersAvatars");
 const createError = require("http-errors");
-const fs = require("fs");
+
 const { usersAdresse } = require("../../models/userAdresse");
 const bcrypt = require("bcryptjs");
 const {
@@ -206,6 +206,18 @@ async function editUser(data, userid) {
     });
   }
   return true;
+}
+async function editAvatar(id, blob) {
+  avatar.update(
+    {
+      avatar: blob.data,
+    },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
 }
 //------------export modules
 module.exports = {

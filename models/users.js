@@ -22,7 +22,10 @@ user.hasOne(usersAdresse, {
   onDelete: "CASCADE",
 });
 usersAdresse.belongsTo(user);
-user.hasMany(orders);
+user.hasMany(orders, {
+  onUpdate: "CASCADE",
+  onDelete: "CASCADE",
+});
 orders.belongsTo(user);
 user.hasOne(avatar, {
   onUpdate: "CASCADE",
