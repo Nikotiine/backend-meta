@@ -164,7 +164,7 @@ async function editUser(data, userid) {
     return true;
   } else {
     await bcrypt.hash(data.password, 10).then((hash) => {
-      console.log("newpassword");
+      console.log(data.newsletter);
       user.update(
         {
           password: hash,
@@ -208,6 +208,7 @@ async function editUser(data, userid) {
   return true;
 }
 async function editAvatar(id, blob) {
+  console.log("edit avatar");
   avatar.update(
     {
       avatar: blob.data,
@@ -218,6 +219,7 @@ async function editAvatar(id, blob) {
       },
     }
   );
+  return true;
 }
 //------------export modules
 module.exports = {
@@ -230,4 +232,5 @@ module.exports = {
   destroyAccount,
   saveAvatar,
   getUserAvatar,
+  editAvatar,
 };

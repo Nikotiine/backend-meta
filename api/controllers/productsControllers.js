@@ -7,6 +7,7 @@ async function newProduct(data) {
     },
     defaults: {
       categoryCode: data.code,
+      ref: data.ref,
     },
   });
   if (created) {
@@ -31,6 +32,7 @@ async function editProduct(product) {
     {
       name: product.name,
       categoryCode: product.code,
+      ref: product.ref,
     },
     {
       where: {

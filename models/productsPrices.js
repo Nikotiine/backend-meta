@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const { database } = require("../config/config_db");
 
 const productsPrices = database.define("productsPrice", {
-  prixUnitaire: { type: DataTypes.INTEGER },
+  prixUnitaire: { type: DataTypes.FLOAT },
   quantitySmall: { type: DataTypes.INTEGER },
   quantityBig: { type: DataTypes.INTEGER },
 });

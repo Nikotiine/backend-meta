@@ -82,6 +82,7 @@ router.put("/edit", (req, res) => {
 router.put("/edit/avatar/:id", (req, res) => {
   editAvatar(req.params.id, req.files.avatar).then((update) => {
     console.log(update);
+    res.send({ data: "update sucess" });
   });
 });
 // -----------------------------------------------route find and count users----------------------------------
