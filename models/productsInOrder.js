@@ -7,7 +7,7 @@ const productInOrder = database.define("productInOrders", {
   categoryCode: { type: DataTypes.INTEGER },
   smallBox: { type: DataTypes.INTEGER },
   bigBox: { type: DataTypes.INTEGER },
-  totalS: { type: DataTypes.INTEGER },
-  totalB: { type: DataTypes.INTEGER },
+  totalS: { type: DataTypes.FLOAT },
+  totalB: { type: DataTypes.FLOAT },
 });
 module.exports = { productInOrder };

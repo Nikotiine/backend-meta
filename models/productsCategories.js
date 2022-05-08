@@ -12,6 +12,7 @@ const productsCategories = database.define("productsCategories", {
 //   { name: "complexes de remèdes", code: 3 },
 //   { name: "allopathie", code: 4 },
 //   { name: "organothérapie", code: 5 },
+//   { name: "Rechercher", code: 6 },
 // ]);
 // productsCategories.hasMany(products, {
 //   onUpdate: "CASCADE",

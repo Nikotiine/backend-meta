@@ -4,7 +4,7 @@ const { productInOrder } = require("./productsInOrder");
 const orders = database.define("commande", {
   payment: { type: DataTypes.STRING },
   shipTo: { type: DataTypes.STRING },
-  total: { type: DataTypes.INTEGER },
+  total: { type: DataTypes.FLOAT },
   inProgress: { type: DataTypes.BOOLEAN },
   shipped: { type: DataTypes.BOOLEAN },
 });
