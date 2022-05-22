@@ -18,6 +18,6 @@ async function countAllAuthorised() {
     where: { publicAuthorisation: true },
   });
 
-  return { count };
+  return { count, raws };
 }
 module.exports = { getInfoUsers, countAllAuthorised };
